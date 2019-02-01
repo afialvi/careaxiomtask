@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+<h1> Following are the titles of given websites: </h1>
+<ul>
+	<% if (titlesInfos.length > 0) {%>
+	<% titlesInfos.forEach(function(titleInfo) { %>
+		<li> <%= titleInfo.address %> - <%= titleInfo.title %></li>
+	<% }); %>
+	<% } %>
+	<% if (titlesInfos.length <= 0) {%>
+		<li> No Addresses given </li>
+	<% } %>
+</ul>
+</body>
+</html>
