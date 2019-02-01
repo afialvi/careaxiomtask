@@ -28,8 +28,11 @@ class Utils{
   					console.log(url+" "+ $.text());
   					if(title.length <= 0){
   						title = " NO RESPONSE"
+  						resolve({"address": url, "title": " NO RESPONSE"});
   					}
-  				resolve({"address": url, "title": title});
+  					else{
+  					resolve({"address": url, "title": "\""+title+"\""});
+  					}
   			});
 			}).on('error', function(e) {
   				console.log("Got error: " + e.message);
