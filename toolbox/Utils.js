@@ -82,7 +82,8 @@ getTitlesUsingAsync(addresses, callback){
 			async.map(addresses, function(url, cb){
 					networkManager.fetchWebPage(url, function(error, body){
 						if(error){
-							cb(null, {"address": urls[index], "title": " NO RESPONSE"});
+							cb(null, {"address": url, "title": " NO RESPONSE"});
+							return;
 						}
 						var title = this.getTitleFromWebPage(body);
 						cb(null, {"address": url, "title": title});
