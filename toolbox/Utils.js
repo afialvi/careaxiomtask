@@ -145,7 +145,7 @@ getTitlesUsingAsync(addresses, callback){
 //////////////////// Bonus Task functions////////////////////////////////
 	
 
-	getTitlesUsingEventStream(adresses, callback){
+	getTitlesUsingBacon(adresses, callback){
 
 		
 		var addressInfos = [];

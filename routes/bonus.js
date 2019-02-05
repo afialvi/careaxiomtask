@@ -9,7 +9,7 @@ var util = new Utils();
 router.get('/I/want/title/', function(req, res, next) {
   addresses = parser.getAddresses(req);
   console.log("addresses "+ addresses);
-  util.getTitlesUsingEventStream(addresses, function(addressTitleInfos){
+  util.getTitlesUsingBacon(addresses, function(addressTitleInfos){
   		console.log("InfosTask 2: "+ JSON.stringify(addressTitleInfos));
   		res.render('addressTitles.html', {"titlesInfos": addressTitleInfos});
   		
