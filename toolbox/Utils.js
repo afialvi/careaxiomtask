@@ -5,6 +5,9 @@ const cheerio = require('cheerio')
 var async = require("async");
 var network = require('../Toolbox/network');
 var networkManager = new network();
+Bacon = require("baconjs").Bacon
+
+
 
 class Utils{
 	constructor(){
@@ -16,7 +19,10 @@ class Utils{
 	getTitleFromWebPage(body){
 		const $ = cheerio.load(body);
   		var title = $("title").text();
-  		return title;
+  		if(title.length <= 0){
+  			return " NO RESPONSE";
+  		}
+  		return "\""+title + "\"";
 	}
 
 
@@ -26,12 +32,7 @@ class Utils{
 
 			networkManager.fetchWebPage(url, function(error, body){
 					var title = this.getTitleFromWebPage(body);
-					if(title.length <= 0){
-  						callback(" NO RESPONSE");
-  					}
-  					else{
-  						callback(title);
-  					}
+					callback(title);
 			}.bind(this));
 	}
 
@@ -84,12 +85,7 @@ getTitlesUsingAsync(addresses, callback){
 							cb(null, {"address": urls[index], "title": " NO RESPONSE"});
 						}
 						var title = this.getTitleFromWebPage(body);
-						if(title.length <= 0){
-		  					cb(null, {"address": url, "title": " NO RESPONSE"});
-		  				}
-		  				else{
-		  					cb(null, {"address": url, "title": title});
-		  				}
+						cb(null, {"address": url, "title": title});
 					}.bind(this));
 
 					}.bind(this), function(err, results) {
@@ -116,9 +112,6 @@ getTitlesUsingAsync(addresses, callback){
 				return
 			}
 			var title = this.getTitleFromWebPage(body);
-			if(title.length <= 0){
-  						title = " NO RESPONSE"
-  			}
   			resolve({"address": url, "title": title});
   		
 
@@ -148,7 +141,39 @@ getTitlesUsingAsync(addresses, callback){
 			callback([]);
 		}
 	};
+
+//////////////////// Bonus Task functions////////////////////////////////
+	
+
+	getTitlesUsingEventStream(adresses, callback){
+
+		
+		var addressInfos = [];
+		adresses.forEach(function(url){
+			Bacon.fromCallback(function(cb) {
+				this.fetchTitleFromUrl(url, function(title){
+					cb({"address": url, "title": title})
+				});
+				
+			}.bind(this)).onValue(function(info){
+				addressInfos.push(info);
+				if(addressInfos.length == adresses.length){
+					callback(addressInfos);
+				}
+				
+			});
+		}.bind(this));
+
+		
+
+	};
+
+
+
 }
 	
+
+
+
 
 module.exports = Utils;

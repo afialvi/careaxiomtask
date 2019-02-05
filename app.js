@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var task3 = require('./routes/task3');
 var task1 = require('./routes/task1');
 var task2 = require('./routes/task2');
+var bonus = require('./routes/bonus');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.use('/bonus', bonus);
 app.use('/task3', task3);
 app.use('/task2', task2);
 app.use('/task1', task1);
